@@ -1,10 +1,6 @@
 function displayQuiz(){
     const questions = [
       {
-        question: "",
-        choices: ["","","",""]
-      },
-      {
         question: "I learn best when I...",
         choices: ["Rely on logical thinking to gather facts", "Am personally or emotionally involved, or work within groups", "Can explore new possibilities, tackle creative tasks, and be flexible", "Use practical applications to make decisions and produce results"]
       },
