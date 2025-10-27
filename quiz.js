@@ -52,5 +52,164 @@ function displayQuiz(){
         question: "I often tend to be...",
         choices: ["Philosophical, complex, principled, composed","Compassionate, warm, communicative, genuine","Adventurous, high spirited, action-oriented, competitive","Organized, procedural, goal-oriented, straightforward"]
       } 
-    ]  
+    ]
+
+// variables to hold scores
+let questionIndex = 0;
+let greenTotal = 0;
+let blueTotal = 0;
+let orangeTotal = 0;
+let goldTotal = 0;
+
+document.getElementById('begin-quiz').addEventListener('click', function() {
+    document.getElementById('quiz-page').style.display = 'block';
+});
+
+function displayQuestion(){
+    const currentQuestion = questions[currentQuestionIndex];
+    const questionElement = document.getElementById('question');
+    const choiceElements = document.getElementById('choices');
+
+    choiceElements.innerHTML = '';
+
+    questionElement.textContent = currentQuestion.question;
+
+    currentQuestion.choices.forEach((choice, index) => {
+        const button = document.createElement('button');
+        button.textContent = choice;
+        button.classList.add('choices');
+        button.addEventListener('click', () => handleChoiceClick(index));
+        choiceElements.appendChild(button);
+    });
 }
+
+function handleChoiceClick(choiceIndex){
+    const currentQuestion = questions[questionIndex];
+    
+    if (choiceIndex = 0){
+        greenTotal += 1;
+    }
+
+    else if (choiceIndex = 1){
+        blueTotal += 1;
+    }
+
+    else if (choiceIndex = 2){
+        orangeTotal += 1;
+    }
+
+    else if (choiceIndex = 3){
+        goldTotal += 1;
+    }
+
+
+    questionIndex++;
+
+    if (currentQuestion < questions.length){
+        displayQuestion();
+    } else {
+        showScore();
+    }
+    
+}
+
+function showScore(){
+    const firstScore = Math.max(greenTotal, blueTotal, goldTotal, orangeTotal);
+    const secondScore = 0;
+    const primaryColor;
+    const secondaryColor;
+
+    if(firstScore == greenTotal){
+        primaryColor = 'green';
+        secondScore = Math.max(blueTotal, goldTotal, orangeTotal);
+
+        if (secondScore == blueTotal){
+            secondaryColor = 'blue';
+        } else if (secondScore == goldTotal){
+            secondaryColor = 'gold';
+        } else if (secondScore == orangeTotal){
+            secondaryColor = 'orange';
+        }
+        
+
+        
+    else if (firstScore == blueTotal){
+        primaryColor = 'blue';
+        secondScore = Math.max(greenTotal, goldTotal, orangeTotal);
+
+        if (secondScore == greenTotal){
+            secondaryColor = 'green';
+        } else if (secondScore == goldTotal){
+            secondaryColor = 'gold';
+        } else if (secondScore == orangeTotal){
+            secondaryColor = 'orange';
+        }
+
+        
+    } else if (firstScore == goldTotal){
+        primaryColor = 'gold';
+        secondScore = Math.max(greenTotal, blueTotal, orangeTotal);
+
+        if (secondScore == greenTotal){
+            secondaryColor = 'green';
+        } else if (secondScore == blueTotal){
+            secondaryColor = 'blue';
+        } else if (secondScore == orangeTotal){
+            secondaryColor = 'orange';
+        }
+
+        
+    } else if (firstScore == orangeTotal){
+        primaryColor = 'orange';
+        secondScore = Math.max(greenTotal, blueTotal, goldTotal);
+
+        if (secondScore == greenTotal){
+            secondaryColor = 'green';
+        } else if (secondScore == blueTotal){
+            secondaryColor = 'blue';
+        } else if (secondScore == goldTotal){
+            secondaryColor = 'gold';
+        }
+
+        
+    }
+
+    document.getElementById('results').style.display = 'none';
+
+    const questionElement = document.getElementById('question');
+    const choiceElements = document.getElementById('choices');
+    const quizContainer = document.getElementById('quiz');
+
+    questionElement.remove();
+    choiceElements.remove();
+    quizContainer.remove();
+
+    document.getElementById('results').style.display = 'block'
+
+
+
+
+
+
+    displayQuestion();
+    document.addEventListener('DOMContentLoaded', () => {
+        const choiceElements = document.querySelectorAll('.choice-container');
+        choiceElements.forEach((container) => {
+            const choices = container.querySelectorAll('button');
+            choices.forEach((choice, choiceIndex) => {
+                choice.addEventListener('click', () => {
+                    handleChoiceClick(choiceIndex);
+                });
+            });
+        });
+    });
+    }
+
+    displayQuiz();
+
+    
+
+
+    
+    
+        
