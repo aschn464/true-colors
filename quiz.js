@@ -1,4 +1,8 @@
+// wait for page content to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+  
+  // QUIZ QUESTIONS
+  // choices must be in order for code to work: green, blue, orange, gold
   const questions = [      
       {
         question: "I learn best when I...",
@@ -50,25 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
       } 
     ];
 
+  // keeps track of question number
   let questionIndex = 0;
+
+  // stores score tallies for each color
   const scores = { green: 0, blue: 0, orange: 0, gold: 0 };
 
+  // page elements
   const questionEl = document.getElementById('question');
   const choicesEl = document.getElementById('choices');
   const quizPage = document.getElementById('quiz-page');
   const resultsEl = document.getElementById('results');
 
+  // "begin quiz" button
   document.getElementById('begin-quiz').addEventListener('click', () => {
+    // hide intro
     document.getElementById('intro').style.display = 'none';
+    
+    // show quiz
     quizPage.style.display = 'block';
     displayQuestion();
   });
 
+  // display a question
   function displayQuestion() {
     const current = questions[questionIndex];
     questionEl.textContent = current.question;
+    // clear old buttons
     choicesEl.innerHTML = '';
 
+    // create button for each choice
     current.choices.forEach((choice, i) => {
       const btn = document.createElement('button');
       btn.textContent = choice;
@@ -78,12 +93,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // handle user choice
   function handleChoice(index) {
+    // add to score corresponding to option that was clicked
     if (index === 0) scores.green++;
     else if (index === 1) scores.blue++;
     else if (index === 2) scores.orange++;
     else if (index === 3) scores.gold++;
 
+    // move to next question or show results
     questionIndex++;
     if (questionIndex < questions.length) {
       displayQuestion();
@@ -92,16 +110,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+// // color descriptions
+// const colorDescriptions = {
+//   green: {
+//     name: "Green",
+//     work: "I am conceptual and an independent thinker.  For me, work is play.  I am drawn to constant challenge in careers, and like to develop models, explore ideas, or build systems to satisfy my need to feel appreciated and supported by others.",
+//     relationships: "When I establish a relationship, I leave it to maintain itself and tune my energies back to my career. I feel most secure when people share similar priorities to my own and have my back without the need for an explicit say so. At times it is difficult for me to express my feelings and become emotionally vulnerable, so I strongly believe in the value of implicit acts of love.",
+//     childhood: "I appeared to be older than my years and focused on my greatest interests, achieving in subjects that were mentally stimulating.  I was impatient with drill and routing, questioned authority, and found it necessary to respect teachers before I could learn from them.",
+//     knowingme: ["I am conceptual", "I have an investigative mind", "I am an independent thinker, a natural nonconformist, and live life by my own standards.", "I like to do things that require vision, problem solving, strategy, ingenuity, design, and change.", "Once I have perfected an idea, I prefer to move on to a new challenge.", "I value knowledge, intelligence, insight, and justice.", "I enjoy relationships with shared interests.", "I prefer to let my head rule my heart.", "I am cool, calm, and collected.", "I do not express my emotions easily."],
+    
+
+
+  
+
+
+
+
+  // show results
   function showResults() {
     quizPage.style.display = 'none';
     resultsEl.style.display = 'block';
 
+    // sort colors by highest score
     const sortedColors = Object.entries(scores)
       .sort((a, b) => b[1] - a[1])
       .map(entry => entry[0]);
+    
+    const primaryColor = sortedColors[0];
+    const secondaryColor = sortedColors[1];
 
+    // show primary and secondary colors
     document.getElementById('primary').textContent = `Primary Color: ${sortedColors[0].toUpperCase()}`;
     document.getElementById('secondary').textContent = `Secondary Color: ${sortedColors[1].toUpperCase()}`;
+
+    // description sections
+    // document.getElementById('work-desc').textContent = colorDescriptions[primaryColor].work;
+    // document.getElementById('relationship-desc').textContent = colorDescriptions[primaryColor].relationships;
+    // document.getElementById('childhood-desc').textContent = colorDescriptions[primaryColor].relationships;
+
+    
   }
 });
 
